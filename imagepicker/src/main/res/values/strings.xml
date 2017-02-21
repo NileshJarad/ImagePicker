@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ImagePicker</string>
+    <string name="choose_option">Choose option</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="provider">.com.nj.imagepicker.fileprovider</string>
+</resources>
