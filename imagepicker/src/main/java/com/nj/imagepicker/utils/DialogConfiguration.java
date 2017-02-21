@@ -57,7 +57,9 @@ public class DialogConfiguration implements Serializable {
 
     // default configuration setup
     public DialogConfiguration() {
-        setTitle("Choose option").setIconGravity(Gravity.END).setOptionOrientation(LinearLayoutCompat.HORIZONTAL);
+        setTitle("Choose option")
+                .setIconGravity(Gravity.END)
+                .setOptionOrientation(LinearLayoutCompat.HORIZONTAL);
     }
 
 

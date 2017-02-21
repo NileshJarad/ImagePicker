@@ -38,7 +38,7 @@ public class IntentUtils {
     private int intentType;
 
     @IntDef({CAMERA, GALLERY})
-    private @interface IntentType {
+    public  @interface IntentType {
 
     }
 
