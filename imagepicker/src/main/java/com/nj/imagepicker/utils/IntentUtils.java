@@ -37,10 +37,7 @@ public class IntentUtils {
     private File photoFile;
     private int intentType;
 
-    @IntDef({CAMERA, GALLERY})
-    public  @interface IntentType {
 
-    }
 
 
     public IntentUtils(Activity activity) {
@@ -48,11 +45,11 @@ public class IntentUtils {
     }
 
 
-    public void launchImagePickIntent(Fragment listener, @IntentType int intentType) {
+    public void launchImagePickIntent(Fragment listener,int intentType) {
         listener.startActivityForResult(getIntentWithPackage(intentType), REQUEST_CODE);
     }
 
-    private Intent getIntentWithPackage(@IntentType int intentType) {
+    private Intent getIntentWithPackage(int intentType) {
         this.intentType = intentType;
         Intent intent = intentType == GALLERY ? getGalleryIntent() : getCameraIntent();
         List<ResolveInfo> resInfo = activity.getPackageManager()
