@@ -20,7 +20,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".FragmentDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
