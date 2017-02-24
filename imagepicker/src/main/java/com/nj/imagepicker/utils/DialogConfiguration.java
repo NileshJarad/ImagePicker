@@ -1,5 +1,6 @@
 package com.nj.imagepicker.utils;
 
+import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Gravity;
@@ -24,6 +25,11 @@ public class DialogConfiguration implements Serializable {
 
     @LinearLayoutCompat.OrientationMode
     private int optionOrientation;
+    private int backgroundColor;
+    private String negativeText;
+    private int negativeTextColor;
+    private int optionsTextColor;
+    private int titleTextColor;
 
 
     public String getTitle() {
@@ -55,11 +61,62 @@ public class DialogConfiguration implements Serializable {
         return this;
     }
 
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public DialogConfiguration setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+        return this;
+    }
+
+    public String getNegativeText() {
+        return negativeText;
+    }
+
+    public DialogConfiguration setNegativeText(String negativeText) {
+        this.negativeText = negativeText;
+        return this;
+    }
+
+    public int getNegativeTextColor() {
+        return negativeTextColor;
+    }
+
+    public DialogConfiguration setNegativeTextColor(int negativeTextColor) {
+        this.negativeTextColor = negativeTextColor;
+        return this;
+    }
+
+    public int getOptionsTextColor() {
+        return optionsTextColor;
+    }
+
+    public DialogConfiguration setOptionsTextColor(int optionsTextColor) {
+        this.optionsTextColor = optionsTextColor;
+        return this;
+    }
+
+    public int getTitleTextColor() {
+        return titleTextColor;
+    }
+
+    public DialogConfiguration setTitleTextColor(int titleTextColor) {
+        this.titleTextColor = titleTextColor;
+        return this;
+    }
+
     // default configuration setup
     public DialogConfiguration() {
         setTitle("Choose option")
                 .setIconGravity(Gravity.END)
-                .setOptionOrientation(LinearLayoutCompat.HORIZONTAL);
+                .setOptionOrientation(LinearLayoutCompat.HORIZONTAL)
+                .setBackgroundColor(Color.WHITE)
+                .setNegativeText("Cancel")
+                .setNegativeTextColor(Color.BLACK)
+                .setTitleTextColor(Color.BLACK)
+                .setOptionsTextColor(Color.BLACK);
     }
 
 

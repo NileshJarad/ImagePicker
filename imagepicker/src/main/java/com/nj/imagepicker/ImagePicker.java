@@ -95,8 +95,19 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
      */
     private void setupConfiguration() {
         tvTitle.setText(dialogConfiguration.getTitle());
+        tvTitle.setTextColor(dialogConfiguration.getTitleTextColor());
+
         llOptionHolder.setOrientation(dialogConfiguration.getOptionOrientation() == LinearLayoutCompat.HORIZONTAL
                 ? LinearLayout.HORIZONTAL : LinearLayout.VERTICAL);
+
+        cvOption.setCardBackgroundColor(dialogConfiguration.getBackgroundColor());
+
+        buttonCancel.setText(dialogConfiguration.getNegativeText());
+        buttonCancel.setTextColor(dialogConfiguration.getNegativeTextColor());
+
+        buttonGallery.setTextColor(dialogConfiguration.getOptionsTextColor());
+        buttonCamera.setTextColor(dialogConfiguration.getOptionsTextColor());
+
     }
 
     /**

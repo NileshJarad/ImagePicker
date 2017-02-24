@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ImagePickerLib</string>
+    <string name="app_name">ImagePicker</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

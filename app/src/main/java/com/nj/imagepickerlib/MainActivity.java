@@ -1,5 +1,6 @@
 package com.nj.imagepickerlib;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -24,9 +25,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void show(View v) {
-        ImagePicker.build(new DialogConfiguration()
-                .setTitle("Choose")
-                .setOptionOrientation(LinearLayoutCompat.HORIZONTAL), new ImageResultListener() {
+        DialogConfiguration configuration = new DialogConfiguration()
+                .setTitle("Choose Options")
+                .setOptionOrientation(LinearLayoutCompat.HORIZONTAL)
+                .setBackgroundColor(Color.GRAY)
+                .setNegativeText("No")
+                .setNegativeTextColor(Color.WHITE)
+                .setTitleTextColor(Color.WHITE);
+
+        ImagePicker.build(configuration, new ImageResultListener() {
             @Override
             public void onImageResult(ImageResult imageResult) {
                 ivImage.setImageBitmap(imageResult.getBitmap());
