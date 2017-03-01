@@ -166,7 +166,8 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
         super.onActivityResult(requestCode, resultCode, data);
         dismissAllowingStateLoss();
         if (resultCode == Activity.RESULT_OK && requestCode == IntentUtils.REQUEST_CODE) {
-            ImageResult imageResult = ResultHelper.prepareResultData(getActivity(), data, intentUtils);
+            ImageResult imageResult = ResultHelper.prepareResultData(getActivity(), data, intentUtils
+                    , dialogConfiguration);
             callback.onImageResult(imageResult);
 
         }

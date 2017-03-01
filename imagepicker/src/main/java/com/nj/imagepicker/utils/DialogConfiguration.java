@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 public class DialogConfiguration implements Serializable {
 
+    public static final int DEFAULT_HEIGHT_WIDTH = -99;
     private String title;
 
     @IntDef({Gravity.START, Gravity.BOTTOM, Gravity.END, Gravity.TOP})
@@ -30,6 +31,8 @@ public class DialogConfiguration implements Serializable {
     private int negativeTextColor;
     private int optionsTextColor;
     private int titleTextColor;
+    private int imageWidth;
+    private int imageHeight;
 
 
     public String getTitle() {
@@ -107,6 +110,20 @@ public class DialogConfiguration implements Serializable {
         return this;
     }
 
+    public DialogConfiguration setResultImageDimension(int imageWidth, int imageHeight) {
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
+        return this;
+    }
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
     // default configuration setup
     public DialogConfiguration() {
         setTitle("Choose option")
@@ -116,7 +133,8 @@ public class DialogConfiguration implements Serializable {
                 .setNegativeText("Cancel")
                 .setNegativeTextColor(Color.BLACK)
                 .setTitleTextColor(Color.BLACK)
-                .setOptionsTextColor(Color.BLACK);
+                .setOptionsTextColor(Color.BLACK)
+                .setResultImageDimension(DEFAULT_HEIGHT_WIDTH, DEFAULT_HEIGHT_WIDTH);
     }
 
 

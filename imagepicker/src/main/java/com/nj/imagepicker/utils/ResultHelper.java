@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.nj.imagepicker.result.ImageResult;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -20,7 +22,8 @@ public class ResultHelper {
     private static final String LOG_TAG = "ResultHelper";
 
 
-    public static ImageResult prepareResultData(Context context, Intent intent, IntentUtils intentUtils) {
+    public static ImageResult prepareResultData(Context context, Intent intent,
+                                                IntentUtils intentUtils, DialogConfiguration dialogConfiguration) {
         ImageResult imageResult = new ImageResult();
         Uri uri;
         String path;
@@ -34,7 +37,7 @@ public class ResultHelper {
 
         imageResult.setUri(uri);
         imageResult.setPath(path);
-        imageResult.setBitmap(getBitmap(context, uri));
+        imageResult.setBitmap(getBitmap(context, uri, dialogConfiguration));
         return imageResult;
     }
 
@@ -53,14 +56,26 @@ public class ResultHelper {
         }
     }
 
-    private static Bitmap getBitmap(Context context, Uri contentUri) {
+    private static Bitmap getBitmap(Context context, Uri contentUri, DialogConfiguration dialogConfiguration) {
         try {
-            return MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri);
+            if (dialogConfiguration.getImageWidth() == DialogConfiguration.DEFAULT_HEIGHT_WIDTH) {
+                return MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri);
+            } else {
+                return getResizedBitmap(context, contentUri, dialogConfiguration);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-
+    private static Bitmap getResizedBitmap(Context context, Uri contentUri, DialogConfiguration dialogConfiguration) throws IOException {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        Bitmap b = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        return Bitmap.createScaledBitmap(b, dialogConfiguration.getImageWidth(),
+                dialogConfiguration.getImageHeight(), false);
+    }
 }

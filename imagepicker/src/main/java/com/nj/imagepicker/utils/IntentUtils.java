@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -36,8 +35,7 @@ public class IntentUtils {
     private Activity activity;
     private File photoFile;
     private int intentType;
-
-
+    private Uri photoURI;
 
 
     public IntentUtils(Activity activity) {
@@ -45,7 +43,7 @@ public class IntentUtils {
     }
 
 
-    public void launchImagePickIntent(Fragment listener,int intentType) {
+    public void launchImagePickIntent(Fragment listener, int intentType) {
         listener.startActivityForResult(getIntentWithPackage(intentType), REQUEST_CODE);
     }
 
@@ -58,6 +56,10 @@ public class IntentUtils {
 
         if (!resInfo.isEmpty()) {
             String packageName = resInfo.get(0).activityInfo.packageName;
+            if (intentType == CAMERA) {
+                activity.grantUriPermission(packageName, photoURI,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
             intent.setPackage(packageName);
         }
 
@@ -87,7 +89,7 @@ public class IntentUtils {
         }
 
         if (photoFile != null) {
-            Uri photoURI = FileProvider.getUriForFile(activity,
+            photoURI = FileProvider.getUriForFile(activity,
                     activity.getPackageName() + activity.getString(R.string.provider),
                     photoFile);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
