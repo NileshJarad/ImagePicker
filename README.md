@@ -18,7 +18,7 @@ allprojects {
 #### 1.2)  _Add the dependency to you app build.gradle_
 ```js
 dependencies {
-	        compile 'com.github.NileshJarad:ImagePicker:v1.0.2'
+	        compile 'com.github.NileshJarad:ImagePicker:v1.0.3'
 	}
 ```
 
