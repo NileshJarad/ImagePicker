@@ -40,7 +40,7 @@ dependencies {
     </application>
 ```
 
-#### 2.1) Launch the option dialog from Activity
+#### 2.2.1) Launch the option dialog from Activity
 ```js
 ImagePicker.build(new DialogConfiguration()
                 .setTitle("Choose")
@@ -65,7 +65,7 @@ ImagePicker.build(new DialogConfiguration()
                 }).show(getSupportFragmentManager());
 ```
 
-#### 2.1) Launch the option dialog from Fragment
+#### 2.2.2) Launch the option dialog from Fragment
 ```js
  ImagePicker.build(new DialogConfiguration()
                 .setTitle("Choose")
@@ -77,8 +77,34 @@ ImagePicker.build(new DialogConfiguration()
         }).show(getChildFragmentManager());
 ```
 
-# 3) Image result 
-You can get Image Uri , path and Bitmap from ImageResult object in callback. 
+# 3) Full Configuration attributes
+
+```js
+ DialogConfiguration configuration = new DialogConfiguration()
+                .setTitle("Choose Options")
+                .setOptionOrientation(LinearLayoutCompat.HORIZONTAL)
+                .setBackgroundColor(Color.GRAY)
+                .setNegativeText("No")
+                .setResultImageDimension(200,200)
+                .setNegativeTextColor(Color.WHITE)
+                .setTitleTextColor(Color.WHITE);
+```
+# 4) Change log 
+## [1.0.3](https://github.com/skywinder/ActionSheetPicker-3.0/tree/2.2.0) (2017-03-01)
+ [Full Changelog](https://github.com/skywinder/ActionSheetPicker-3.0/compare/2.1.0...2.2.0)
+
+**Implemented enhancements:**
+
+Closed issue of image from Camera for devices running Android L (Lollipop)
+Added configurations for the setting background color, text color, dimension of result image
+Removed unused library[\#1](https://github.com/NileshJarad/ImagePicker/pull/1)
+ 
+**Merged pull requests:**
+
+Removed unused library[\#1](https://github.com/NileshJarad/ImagePicker/pull/1)([Sagar Gangawane](https://github.com/SagarGang))
+
+**Closed issues:**
+Closed issue Camera Image is not showing[\#2](https://github.com/NileshJarad/ImagePicker/issues/2)
 
 
 ## Author's [Portfolio](https://nileshjarad.github.io/)
