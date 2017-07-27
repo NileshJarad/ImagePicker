@@ -55,7 +55,7 @@ private static final String LOG_TAG = "ImageOptionFromFragment";
     public void show() {
         ImagePicker.build(new DialogConfiguration()
                 .setTitle("Choose")
-                .setResultImageDimension(200,200)
+                .setResultImageDimension(1000,1000)
                 .setOptionOrientation(LinearLayoutCompat.HORIZONTAL), new ImageResultListener() {
             @Override
             public void onImageResult(ImageResult imageResult) {

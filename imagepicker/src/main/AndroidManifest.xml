@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name=".provider.ImageProvider"
             android:authorities="com.nj.imagepicker.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

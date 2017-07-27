@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.nj.imagepicker.result.ImageResult;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -61,7 +59,9 @@ public class ResultHelper {
             if (dialogConfiguration.getImageWidth() == DialogConfiguration.DEFAULT_HEIGHT_WIDTH) {
                 return MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri);
             } else {
-                return getResizedBitmap(context, contentUri, dialogConfiguration);
+//                return getResizedBitmap(context, contentUri, dialogConfiguration);
+
+                return scaleDown(context, dialogConfiguration, contentUri);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,13 +69,30 @@ public class ResultHelper {
         return null;
     }
 
-    private static Bitmap getResizedBitmap(Context context, Uri contentUri, DialogConfiguration dialogConfiguration) throws IOException {
-        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        Bitmap b = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        return Bitmap.createScaledBitmap(b, dialogConfiguration.getImageWidth(),
-                dialogConfiguration.getImageHeight(), false);
+    private static Bitmap scaleDown(Context context, DialogConfiguration dialogConfiguration, Uri contentUri) throws IOException {
+        Bitmap realImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri);
+        float ratio = Math.min(
+                (float) dialogConfiguration.getImageWidth() / realImage.getWidth(),
+                (float) dialogConfiguration.getImageHeight() / realImage.getHeight());
+        if (ratio < 1) {// this ensure the only downscale image
+            int width = Math.round(ratio * realImage.getWidth());
+            int height = Math.round(ratio * realImage.getHeight());
+            return Bitmap.createScaledBitmap(realImage, width,
+                    height, false);
+        } else {
+            return realImage;
+        }
     }
+
+//    private static Bitmap getResizedBitmap(Context context, Uri contentUri, DialogConfiguration dialogConfiguration) throws IOException {
+//        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri);
+////        return bitmap;
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//        byte[] byteArray = stream.toByteArray();
+//        Bitmap b = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+//        return Bitmap.createScaledBitmap(b, dialogConfiguration.getImageWidth(),
+//                dialogConfiguration.getImageHeight(), false);
+//    }
+
 }

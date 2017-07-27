@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="com.nj.imagepicker.provider.ImageProvider"
             android:authorities="${applicationId}.com.nj.imagepicker.fileprovider"
             tools:replace="android:authorities">
             <meta-data
@@ -20,7 +20,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".FragmentDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
