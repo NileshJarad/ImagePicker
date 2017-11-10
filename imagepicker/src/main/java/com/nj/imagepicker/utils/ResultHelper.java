@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -37,6 +39,35 @@ public class ResultHelper {
         imageResult.setPath(path);
         imageResult.setBitmap(getBitmap(context, uri, dialogConfiguration));
         return imageResult;
+    }
+
+    private static int getRotationFromCamera(Uri uri) {
+        int rotate = 0;
+        try {
+
+            ExifInterface exif = new ExifInterface(uri.getPath());
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+                default:
+                    rotate = 0;
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rotate;
     }
 
     private static String getRealPathFromURI(Context context, Uri contentUri) {
@@ -77,11 +108,23 @@ public class ResultHelper {
         if (ratio < 1) {// this ensure the only downscale image
             int width = Math.round(ratio * realImage.getWidth());
             int height = Math.round(ratio * realImage.getHeight());
-            return Bitmap.createScaledBitmap(realImage, width,
+            realImage = Bitmap.createScaledBitmap(realImage, width,
                     height, false);
-        } else {
-            return realImage;
         }
+
+
+        return rotate(realImage, getRotationFromCamera(contentUri));
+
+    }
+
+    private static Bitmap rotate(Bitmap bitmap, int degrees) {
+        if (bitmap != null && degrees != 0) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(degrees);
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        }
+
+        return bitmap;
     }
 
 //    private static Bitmap getResizedBitmap(Context context, Uri contentUri, DialogConfiguration dialogConfiguration) throws IOException {
