@@ -18,7 +18,7 @@ allprojects {
 #### 1.2)  _Add the dependency to you app build.gradle_
 ```js
 dependencies {
-	        compile 'com.github.NileshJarad:ImagePicker:v1.0.4'
+	        compile 'com.github.NileshJarad:ImagePicker:v1.0.5'
 	}
 ```
 
@@ -93,6 +93,8 @@ ImagePicker.build(new DialogConfiguration()
 
 
 
+## [1.0.5](https://github.com/NileshJarad/ImagePicker/tree/1669bda278294ea16a1d2967118562401c7bb59f) (2017-11-10)
+ [Full Changelog](https://github.com/NileshJarad/ImagePicker/tree/f67696ef021ce9eb6fdbad1b09c758848a103c66)
 
 ## [1.0.4](https://github.com/NileshJarad/ImagePicker/tree/1669bda278294ea16a1d2967118562401c7bb59f) (2017-07-27)
  [Full Changelog](https://github.com/NileshJarad/ImagePicker/commit/1669bda278294ea16a1d2967118562401c7bb59f)
