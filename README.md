@@ -1,7 +1,7 @@
 [![](https://jitpack.io/v/NileshJarad/ImagePicker.svg)](https://jitpack.io/#NileshJarad/ImagePicker)
 
 Android Library that helps to easily integrate image choose option.
-It shows camera and gallery option. Multiple image selection from gallery is added.
+It shows camera and gallery option. You can select Multiple images from gallery.
 
 
 ## What's new in current version v1.0.6.
@@ -14,10 +14,7 @@ Now you can set multi-selection to gallery intent like below to select multiple 
                 .setOptionOrientation(LinearLayoutCompat.HORIZONTAL), new ImageMultiResultListener() {
             @Override
             public void onImageResult(ArrayList<ImageResult> imageResult) {
-//                Bitmap bitmap = ;
-
                 Log.e(LOG_TAG, "onImageResult:Number of image picked " + imageResult.size());
-
                 if (imageResult.size() > 0) {
                     ivImage.setImageBitmap(imageResult.get(0).getBitmap());
                 }
@@ -40,7 +37,7 @@ allprojects {
 #### 1.2)  _Add the dependency to you app build.gradle_
 ```js
 dependencies {
-	        compile 'com.github.NileshJarad:ImagePicker:v1.0.5'
+	        compile 'com.github.NileshJarad:ImagePicker:v1.0.6'
 	}
 ```
 
@@ -113,22 +110,19 @@ ImagePicker.build(new DialogConfiguration()
 ```
 # 4) Change log 
 
-## [1.0.6](https://github.com/NileshJarad/ImagePicker/tree/1669bda278294ea16a1d2967118562401c7bb59f) (2017-11-10)
-   [Full Changelog](https://github.com/NileshJarad/ImagePicker/tree/f67696ef021ce9eb6fdbad1b09c758848a103c66)
+## [1.0.6](https://github.com/NileshJarad/ImagePicker/tree/6ec461ea7107d37730deb3fa0145ee55793fede0) (2018-01-15)
    **Implemented enhancements:**
 
    1. Added multiple image selection from gallery option
 
 
-## [1.0.5](https://github.com/NileshJarad/ImagePicker/tree/1669bda278294ea16a1d2967118562401c7bb59f) (2017-11-10)
- [Full Changelog](https://github.com/NileshJarad/ImagePicker/tree/f67696ef021ce9eb6fdbad1b09c758848a103c66)
+## [1.0.5](https://github.com/NileshJarad/ImagePicker/tree/f67696ef021ce9eb6fdbad1b09c758848a103c66) (2017-11-10)
+
 
 ## [1.0.4](https://github.com/NileshJarad/ImagePicker/tree/1669bda278294ea16a1d2967118562401c7bb59f) (2017-07-27)
- [Full Changelog](https://github.com/NileshJarad/ImagePicker/commit/1669bda278294ea16a1d2967118562401c7bb59f)
 
 
 ## [1.0.3](https://github.com/NileshJarad/ImagePicker/tree/7df01b8043dfa4fc2264cffea8b43db9768abe91) (2017-03-01)
- [Full Changelog](https://github.com/NileshJarad/ImagePicker/commit/7df01b8043dfa4fc2264cffea8b43db9768abe91)
 
 **Implemented enhancements:**
 
