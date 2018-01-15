@@ -4,7 +4,7 @@ Android Library that helps to easily integrate image choose option.
 It shows camera and gallery option. You can select Multiple images from gallery.
 
 
-## What's new in current version v1.0.6.
+## What's new in current version v1.0.7.
 Now you can set multi-selection to gallery intent like below to select multiple images
 
 ```js
@@ -37,7 +37,7 @@ allprojects {
 #### 1.2)  _Add the dependency to you app build.gradle_
 ```js
 dependencies {
-	        compile 'com.github.NileshJarad:ImagePicker:v1.0.6'
+	        compile 'com.github.NileshJarad:ImagePicker:v1.0.7'
 	}
 ```
 
@@ -108,7 +108,12 @@ ImagePicker.build(new DialogConfiguration()
                 .setNegativeTextColor(Color.WHITE)
                 .setTitleTextColor(Color.WHITE);
 ```
-# 4) Change log 
+# 4) Change log
+
+## [1.0.7](https://github.com/NileshJarad/ImagePicker/tree/62852c08ab8ae771f942513973ec85b881493484) (2018-01-15)
+   **Implemented enhancements:**
+
+  Resolved build error for build gradle plugin
 
 ## [1.0.6](https://github.com/NileshJarad/ImagePicker/tree/6ec461ea7107d37730deb3fa0145ee55793fede0) (2018-01-15)
    **Implemented enhancements:**
