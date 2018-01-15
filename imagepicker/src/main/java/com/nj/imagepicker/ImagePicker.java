@@ -21,6 +21,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nj.imagepicker.listener.ImageMultiResultListener;
 import com.nj.imagepicker.listener.ImageResultListener;
 import com.nj.imagepicker.result.ImageResult;
 import com.nj.imagepicker.utils.DialogConfiguration;
@@ -48,6 +49,8 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
     private IntentUtils intentUtils;
     private LinearLayout llOptionContainer;
     private ImageResultListener callback;
+    private ImageMultiResultListener callbackMultiImage;
+    private boolean isMultiSelect;
 
     private static ImagePicker newInstance(DialogConfiguration dialogConfiguration) {
         Bundle args = new Bundle();
@@ -129,6 +132,13 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
         return dialog;
     }
 
+
+    public static ImagePicker build(DialogConfiguration dialogConfiguration, ImageMultiResultListener callback) {
+        ImagePicker dialog = newInstance(dialogConfiguration);
+        dialog.setImageMultiSuccessListener(callback);
+        return dialog;
+    }
+
     public static ImagePicker build(ImageResultListener callback) {
         return build(new DialogConfiguration(), callback);
     }
@@ -150,13 +160,13 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
         } else if (v == buttonCamera) {
             launchCameraIntent();
         } else if (v == buttonGallery) {
-            intentUtils.launchImagePickIntent(this, IntentUtils.GALLERY);
+            intentUtils.launchImagePickIntent(this, IntentUtils.GALLERY,isMultiSelect);
         }
     }
 
     private void launchCameraIntent() {
         if (intentUtils.requestCameraPermissions(this)) {
-            intentUtils.launchImagePickIntent(this, IntentUtils.CAMERA);
+            intentUtils.launchImagePickIntent(this, IntentUtils.CAMERA,isMultiSelect);
         }
     }
 
@@ -166,9 +176,17 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
         super.onActivityResult(requestCode, resultCode, data);
         dismissAllowingStateLoss();
         if (resultCode == Activity.RESULT_OK && requestCode == IntentUtils.REQUEST_CODE) {
-            ImageResult imageResult = ResultHelper.prepareResultData(getActivity(), data, intentUtils
-                    , dialogConfiguration);
-            callback.onImageResult(imageResult);
+
+
+            if (callback != null) {
+                ImageResult imageResult = ResultHelper.prepareResultData(getActivity(), data, intentUtils
+                        , dialogConfiguration);
+                callback.onImageResult(imageResult);
+            }else{
+                // multi image listener event
+                callbackMultiImage.onImageResult(ResultHelper.prepareMultiResultData(getActivity(), data, intentUtils
+                        , dialogConfiguration));
+            }
 
         }
     }
@@ -194,5 +212,13 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
 
     public void setImageSuccessListener(ImageResultListener callback) {
         this.callback = callback;
+        this.callbackMultiImage = null;
+        this.isMultiSelect = false;
+    }
+
+    public void setImageMultiSuccessListener(ImageMultiResultListener callbackMultiImage) {
+        this.callbackMultiImage = callbackMultiImage;
+        this.callback = null;
+        this.isMultiSelect = true;
     }
 }

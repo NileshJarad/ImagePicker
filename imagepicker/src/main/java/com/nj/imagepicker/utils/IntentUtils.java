@@ -43,13 +43,13 @@ public class IntentUtils {
     }
 
 
-    public void launchImagePickIntent(Fragment listener, int intentType) {
-        listener.startActivityForResult(getIntentWithPackage(intentType), REQUEST_CODE);
+    public void launchImagePickIntent(Fragment listener, int intentType, boolean isMultiSelect) {
+        listener.startActivityForResult(getIntentWithPackage(intentType, isMultiSelect), REQUEST_CODE);
     }
 
-    private Intent getIntentWithPackage(int intentType) {
+    private Intent getIntentWithPackage(int intentType, boolean isMultiSelect) {
         this.intentType = intentType;
-        Intent intent = intentType == GALLERY ? getGalleryIntent() : getCameraIntent();
+        Intent intent = intentType == GALLERY ? getGalleryIntent(isMultiSelect) : getCameraIntent();
         List<ResolveInfo> resInfo = activity.getPackageManager()
                 .queryIntentActivities(intent,
                         PackageManager.MATCH_SYSTEM_ONLY);
@@ -67,9 +67,14 @@ public class IntentUtils {
     }
 
 
-    private Intent getGalleryIntent() {
+    private Intent getGalleryIntent(boolean isMultiSelect) {
         Intent intentGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intentGallery.setType("image/*");
+        if (isMultiSelect) {
+            // set this only if multi select intent listener is attached
+            intentGallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intentGallery.setAction(Intent.ACTION_GET_CONTENT);
+        }
         return intentGallery;
     }
 

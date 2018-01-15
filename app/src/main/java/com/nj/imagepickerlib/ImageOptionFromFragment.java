@@ -1,7 +1,6 @@
 package com.nj.imagepickerlib;
 
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.nj.imagepicker.ImagePicker;
-import com.nj.imagepicker.listener.ImageResultListener;
+import com.nj.imagepicker.listener.ImageMultiResultListener;
 import com.nj.imagepicker.result.ImageResult;
 import com.nj.imagepicker.utils.DialogConfiguration;
+
+import java.util.ArrayList;
 
 
 /**
@@ -23,7 +24,7 @@ import com.nj.imagepicker.utils.DialogConfiguration;
  */
 public class ImageOptionFromFragment extends Fragment {
 
-private static final String LOG_TAG = "ImageOptionFromFragment";
+    private static final String LOG_TAG = "ImageOptionFromFragment";
 
 
     private ImageView ivImage;
@@ -53,17 +54,34 @@ private static final String LOG_TAG = "ImageOptionFromFragment";
     }
 
     public void show() {
+//        ImagePicker.build(new DialogConfiguration()
+//                .setTitle("Choose")
+//                .setResultImageDimension(1000,1000)
+//                .setOptionOrientation(LinearLayoutCompat.HORIZONTAL), new ImageResultListener() {
+//            @Override
+//            public void onImageResult(ImageResult imageResult) {
+//                Bitmap bitmap = imageResult.getBitmap();
+//
+//                Log.e(LOG_TAG, "onImageResult: "+bitmap.getWidth());
+//
+//                ivImage.setImageBitmap(bitmap);
+//            }
+//        }).show(getChildFragmentManager());
+
+
         ImagePicker.build(new DialogConfiguration()
                 .setTitle("Choose")
-                .setResultImageDimension(1000,1000)
-                .setOptionOrientation(LinearLayoutCompat.HORIZONTAL), new ImageResultListener() {
+                .setResultImageDimension(1000, 1000)
+                .setOptionOrientation(LinearLayoutCompat.HORIZONTAL), new ImageMultiResultListener() {
             @Override
-            public void onImageResult(ImageResult imageResult) {
-                Bitmap bitmap = imageResult.getBitmap();
+            public void onImageResult(ArrayList<ImageResult> imageResult) {
+//                Bitmap bitmap = ;
 
-                Log.e(LOG_TAG, "onImageResult: "+bitmap.getWidth());
+                Log.e(LOG_TAG, "onImageResult:Number of image picked " + imageResult.size());
 
-                ivImage.setImageBitmap(bitmap);
+                if (imageResult.size() > 0) {
+                    ivImage.setImageBitmap(imageResult.get(0).getBitmap());
+                }
             }
         }).show(getChildFragmentManager());
     }

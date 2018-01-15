@@ -1,5 +1,6 @@
 package com.nj.imagepicker.utils;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.provider.MediaStore;
 import com.nj.imagepicker.result.ImageResult;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by nileshjarad on 21/02/17.
@@ -39,6 +41,49 @@ public class ResultHelper {
         imageResult.setPath(path);
         imageResult.setBitmap(getBitmap(context, uri, dialogConfiguration));
         return imageResult;
+    }
+
+    public static ArrayList<ImageResult> prepareMultiResultData(Context context, Intent intent,
+                                                                IntentUtils intentUtils, DialogConfiguration dialogConfiguration) {
+        ArrayList<ImageResult> imageResults = new ArrayList<>();
+
+
+        if (intentUtils.getIntentType() == IntentUtils.CAMERA) {
+            Uri uri = intentUtils.getCameraUri();
+            String path = uri.getPath();
+            ImageResult imageResult = new ImageResult();
+            imageResult.setUri(uri);
+            imageResult.setPath(path);
+            imageResult.setBitmap(getBitmap(context, uri, dialogConfiguration));
+            imageResults.add(imageResult);
+
+        } else {
+            if (intent.getData() != null) {
+                Uri uri = intent.getData();
+                String path = getRealPathFromURI(context, uri);
+                ImageResult imageResult = new ImageResult();
+                imageResult.setUri(uri);
+                imageResult.setPath(path);
+                imageResult.setBitmap(getBitmap(context, uri, dialogConfiguration));
+                imageResults.add(imageResult);
+            } else if (intent.getClipData() != null) {
+                ClipData mClipData = intent.getClipData();
+
+                for (int i = 0; i < mClipData.getItemCount(); i++) {
+                    ClipData.Item item = mClipData.getItemAt(i);
+                    Uri uri = item.getUri();
+                    String path = getRealPathFromURI(context, uri);
+                    ImageResult imageResult = new ImageResult();
+                    imageResult.setUri(uri);
+                    imageResult.setPath(path);
+                    imageResult.setBitmap(getBitmap(context, uri, dialogConfiguration));
+                    imageResults.add(imageResult);
+                }
+            }
+        }
+
+
+        return imageResults;
     }
 
     private static int getRotationFromCamera(Uri uri) {
@@ -126,16 +171,5 @@ public class ResultHelper {
 
         return bitmap;
     }
-
-//    private static Bitmap getResizedBitmap(Context context, Uri contentUri, DialogConfiguration dialogConfiguration) throws IOException {
-//        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri);
-////        return bitmap;
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//        byte[] byteArray = stream.toByteArray();
-//        Bitmap b = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-//        return Bitmap.createScaledBitmap(b, dialogConfiguration.getImageWidth(),
-//                dialogConfiguration.getImageHeight(), false);
-//    }
 
 }
