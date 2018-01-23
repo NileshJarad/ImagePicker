@@ -31,7 +31,8 @@ public class IntentUtils {
 
     public static final int CAMERA = 0;
     public static final int GALLERY = 1;
-    public static final int REQUEST_CODE = 1000;
+    public static final int REQUEST_CODE_CAMERA_PERMISSION = 1000;
+    public static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 2000;
     private Activity activity;
     private File photoFile;
     private int intentType;
@@ -44,7 +45,7 @@ public class IntentUtils {
 
 
     public void launchImagePickIntent(Fragment listener, int intentType, boolean isMultiSelect) {
-        listener.startActivityForResult(getIntentWithPackage(intentType, isMultiSelect), REQUEST_CODE);
+        listener.startActivityForResult(getIntentWithPackage(intentType, isMultiSelect), REQUEST_CODE_CAMERA_PERMISSION);
     }
 
     private Intent getIntentWithPackage(int intentType, boolean isMultiSelect) {
@@ -140,7 +141,30 @@ public class IntentUtils {
         if (list.isEmpty())
             return true;
 
-        listener.requestPermissions(list.toArray(new String[list.size()]), REQUEST_CODE);
+        listener.requestPermissions(list.toArray(new String[list.size()]), REQUEST_CODE_CAMERA_PERMISSION);
+        return false;
+    }
+
+
+    private String[] getExternalStoragePermissions() {
+        return new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE};
+    }
+
+    /**
+     * request permission to read external storage not granted
+     */
+    public boolean requestReadExternalStoragePermissions(Fragment listener) {
+        List<String> list = new ArrayList<>();
+
+        for (String permission : getExternalStoragePermissions())
+            if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_DENIED)
+                list.add(permission);
+
+        if (list.isEmpty())
+            return true;
+
+        listener.requestPermissions(list.toArray(new String[list.size()]), REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
         return false;
     }
 

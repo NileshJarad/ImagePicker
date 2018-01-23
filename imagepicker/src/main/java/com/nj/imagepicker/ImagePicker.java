@@ -160,13 +160,19 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
         } else if (v == buttonCamera) {
             launchCameraIntent();
         } else if (v == buttonGallery) {
-            intentUtils.launchImagePickIntent(this, IntentUtils.GALLERY,isMultiSelect);
+            launchGalleryIntent();
+        }
+    }
+
+    private void launchGalleryIntent() {
+        if (intentUtils.requestReadExternalStoragePermissions(this)) {
+            intentUtils.launchImagePickIntent(this, IntentUtils.GALLERY, isMultiSelect);
         }
     }
 
     private void launchCameraIntent() {
         if (intentUtils.requestCameraPermissions(this)) {
-            intentUtils.launchImagePickIntent(this, IntentUtils.CAMERA,isMultiSelect);
+            intentUtils.launchImagePickIntent(this, IntentUtils.CAMERA, isMultiSelect);
         }
     }
 
@@ -175,14 +181,14 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         dismissAllowingStateLoss();
-        if (resultCode == Activity.RESULT_OK && requestCode == IntentUtils.REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == IntentUtils.REQUEST_CODE_CAMERA_PERMISSION) {
 
 
             if (callback != null) {
                 ImageResult imageResult = ResultHelper.prepareResultData(getActivity(), data, intentUtils
                         , dialogConfiguration);
                 callback.onImageResult(imageResult);
-            }else{
+            } else {
                 // multi image listener event
                 callbackMultiImage.onImageResult(ResultHelper.prepareMultiResultData(getActivity(), data, intentUtils
                         , dialogConfiguration));
@@ -195,18 +201,20 @@ public class ImagePicker extends DialogFragment implements View.OnClickListener 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == IntentUtils.REQUEST_CODE) {
-            boolean granted = true;
 
-            for (Integer i : grantResults)
-                granted = granted && i == PackageManager.PERMISSION_GRANTED;
+        boolean granted = true;
 
-            if (granted) {
+        for (Integer i : grantResults)
+            granted = granted && i == PackageManager.PERMISSION_GRANTED;
+
+        if (granted) {
+            if (requestCode == IntentUtils.REQUEST_CODE_CAMERA_PERMISSION) {
                 launchCameraIntent();
-            } else {
-                dismissAllowingStateLoss();
+            } else if (requestCode == IntentUtils.REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION) {
+                launchGalleryIntent();
             }
-
+        } else {
+            dismissAllowingStateLoss();
         }
     }
 

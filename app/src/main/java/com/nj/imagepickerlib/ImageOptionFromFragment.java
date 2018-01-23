@@ -75,8 +75,6 @@ public class ImageOptionFromFragment extends Fragment {
                 .setOptionOrientation(LinearLayoutCompat.HORIZONTAL), new ImageMultiResultListener() {
             @Override
             public void onImageResult(ArrayList<ImageResult> imageResult) {
-//                Bitmap bitmap = ;
-
                 Log.e(LOG_TAG, "onImageResult:Number of image picked " + imageResult.size());
 
                 if (imageResult.size() > 0) {
