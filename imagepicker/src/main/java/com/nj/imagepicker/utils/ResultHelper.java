@@ -90,11 +90,11 @@ public class ResultHelper {
         return imageResults;
     }
 
-    private static int getRotationFromCamera(Uri uri) {
+    private static int getRotationFromCamera(Context context, Uri uri) {
         int rotate = 0;
         try {
 
-            ExifInterface exif = new ExifInterface(uri.getPath());
+            ExifInterface exif = new ExifInterface(getPath(context, uri));
             int orientation = exif.getAttributeInt(
                     ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_NORMAL);
@@ -162,7 +162,7 @@ public class ResultHelper {
         }
 
 
-        return rotate(realImage, getRotationFromCamera(contentUri));
+        return rotate(realImage, getRotationFromCamera(context,contentUri));
 
     }
 
@@ -324,7 +324,7 @@ public class ResultHelper {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
-    public static boolean isGoogleDrivePhoto(Uri uri){
+    public static boolean isGoogleDrivePhoto(Uri uri) {
         return "com.google.android.apps.docs.storage".equals(uri.getAuthority());
     }
 }
