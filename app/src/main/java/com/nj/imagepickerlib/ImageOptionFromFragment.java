@@ -71,7 +71,6 @@ public class ImageOptionFromFragment extends Fragment {
 
         ImagePicker.build(new DialogConfiguration()
                 .setTitle("Choose")
-                .setResultImageDimension(1000, 1000)
                 .setOptionOrientation(LinearLayoutCompat.HORIZONTAL), new ImageMultiResultListener() {
             @Override
             public void onImageResult(ArrayList<ImageResult> imageResult) {

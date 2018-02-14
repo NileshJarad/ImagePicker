@@ -31,8 +31,8 @@ public class DialogConfiguration implements Serializable {
     private int negativeTextColor;
     private int optionsTextColor;
     private int titleTextColor;
-    private int imageWidth;
-    private int imageHeight;
+    private int imageWidth = 720;
+    private int imageHeight= 1280;
 
 
     public String getTitle() {

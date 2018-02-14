@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.nj.imagepicker.result.ImageResult;
 
@@ -115,6 +116,7 @@ public class ResultHelper {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e(LOG_TAG, "getRotationFromCamera: "+e.getLocalizedMessage());
         }
         return rotate;
     }
@@ -137,10 +139,8 @@ public class ResultHelper {
     private static Bitmap getBitmap(Context context, Uri contentUri, DialogConfiguration dialogConfiguration) {
         try {
             if (dialogConfiguration.getImageWidth() == DialogConfiguration.DEFAULT_HEIGHT_WIDTH) {
-                return MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri);
+                return rotate(MediaStore.Images.Media.getBitmap(context.getContentResolver(), contentUri), getRotationFromCamera(context,contentUri));
             } else {
-//                return getResizedBitmap(context, contentUri, dialogConfiguration);
-
                 return scaleDown(context, dialogConfiguration, contentUri);
             }
         } catch (IOException e) {
